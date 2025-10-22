@@ -1,0 +1,70 @@
+version: '3.8'
+
+# --- 1. BASE DE DATOS (MySQL) ---
+# Esta sección está perfecta. Descarga MySQL y usa tu init.sql.
+services:
+  vicente-mysql:
+    image: mysql:8.0
+    container_name: vicente-mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASS}_root
+      MYSQL_DATABASE: vicente_database
+      MYSQL_USER: user_api
+      MYSQL_PASSWORD: ${PASS}_api
+    ports:
+      - "3306:3306" # Expone la DB a tu IP (para Workbench)
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # Asegúrate de tener esta carpeta y archivo: ./data/init.sql
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql 
+    networks:
+      - microservice-network
+
+  # --- 2. BACKEND (Node.js API) ---
+  # Esta sección está perfecta. Se conecta a la DB usando el nombre 'vicente-mysql'.
+  vicente-api:
+    build:
+      context: ./mircoserverBackend # El nombre de tu carpeta de backend
+    container_name: vicente-api-service
+    restart: always
+    ports:
+      - "5000:5000" # Expone la API al público (para el frontend)
+    environment:
+      DB_HOST: vicente-mysql # ¡CORRECTO! Comunicación interna
+      DB_USER: user_api
+      DB_PASSWORD: ${PASS}_api
+      DB_NAME: vicente_database
+      API_PORT: 5000
+    depends_on:
+      - vicente-mysql
+    networks:
+      - microservice-network
+
+  # --- 3. FRONTEND (React) ---
+  vicente-frontend:
+    build:
+      context: ./MicroserveFront # El nombre de tu carpeta de frontend
+    container_name: vicente-frontend-web
+    restart: always
+    ports:
+      - "3000:3000" # Expone el frontend al público
+    #
+    # --- LA CORRECCIÓN CLAVE ---
+    # Se elimina el bloque 'environment:' de aquí.
+    # La URL de la API (VITE_API_URL) se "hornea" durante el 'build'
+    # tomándola del archivo 'MicroserveFront/.env' que ya creaste.
+    #
+    depends_on:
+      - vicente-api
+    networks:
+      - microservice-network
+
+# Redes y Volúmenes (Perfecto)
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
