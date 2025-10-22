@@ -1,0 +1,153 @@
+/* src/views/ItemsPage.css */
+
+/* Estado de la API */
+.api-status {
+  font-style: italic;
+  color: #555;
+  background-color: #fafafa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.api-status strong {
+  color: #27ae60; /* Verde para éxito */
+}
+
+/* Clase condicional para error */
+.api-status.error strong {
+  color: #c0392b; /* Rojo para error */
+}
+
+/* Contenedor del formulario */
+.form-container {
+  display: flex;
+  flex-wrap: wrap; /* Para que sea responsivo en pantallas chicas */
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: flex-end;
+}
+
+.form-input {
+  flex: 1; /* Hace que los inputs crezcan */
+  min-width: 200px; /* Ancho mínimo antes de saltar de línea */
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* Estilo base para botones */
+.form-button,
+.edit-button,
+.delete-button,
+.cancel-button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* Evita que el texto del botón se parta */
+}
+
+.form-button:active,
+.edit-button:active,
+.delete-button:active,
+.cancel-button:active {
+  transform: translateY(1px);
+}
+
+/* Botón de Crear/Actualizar */
+.form-button {
+  background-color: #2ecc71;
+  color: white;
+}
+.form-button:hover {
+  background-color: #27ae60;
+}
+
+/* Botón de Cancelar Edición */
+.cancel-button {
+  background-color: #f39c12;
+  color: white;
+  margin-left: 10px;
+}
+.cancel-button:hover {
+  background-color: #e67e22;
+}
+
+
+/* --- Lista de Items --- */
+
+.loading-text,
+.empty-list-text {
+  text-align: center;
+  color: #95a5a6;
+  font-size: 1.1rem;
+  padding: 30px 0;
+}
+
+.items-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+/* Tarjeta para cada Item */
+.item-card {
+  background-color: #fff;
+  border: 1px solid #ecf0f1;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.item-card:hover {
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.item-details {
+  flex: 1;
+  margin-right: 16px;
+  word-break: break-word; /* Evita que el texto largo rompa el layout */
+}
+
+.item-details strong {
+  color: #2c3e50;
+  font-size: 1.15rem;
+  display: block; /* Para que la descripción pase abajo */
+  margin-bottom: 4px;
+}
+
+/* Botones de la tarjeta */
+.edit-button {
+  background-color: #3498db;
+  color: white;
+  margin-right: 8px;
+}
+.edit-button:hover {
+  background-color: #2980b9;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+}
+.delete-button:hover {
+  background-color: #c0392b;
+}
